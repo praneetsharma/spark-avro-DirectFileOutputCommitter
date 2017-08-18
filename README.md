@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Current, spark-avro uses default FileOutputCommitter for writing avro files irrespective of the filesystem it is writing to. FileOutputCommitter works by firstly writing the files to a temporary directory and then renaming them to the actual location. This behavior of FileOutputCommitter is required when speculative execution of mappers is enabled and the files are being written to HDFS location. In speculative execution of mappers, two (or more) mappers might try writing the same file split, thus the initial write location must differ among mappers. 
+Currently, spark-avro uses default FileOutputCommitter for writing avro files irrespective of the filesystem it is writing to. FileOutputCommitter works by firstly writing the files to a temporary directory and then renaming them to the actual location. This behavior of FileOutputCommitter is required when speculative execution of mappers is enabled and the files are being written to HDFS location. In speculative execution of mappers, two (or more) mappers might try writing the same file split, thus the initial write location must differ among mappers. 
 
 ## Direct avro file write to S3
 
@@ -22,6 +22,10 @@ Two files have been added to support direct write of avro files: DirectFileOutpu
     <value>FILL_IN_LATER</value>
 </property>
 ```
+
+### Use DirectFileOutputCommitter only when:
+* The avro files are being written to S3 location, **OR**
+* Both speculative-execution and append mode are disabled.
 
 ## Build Instructions
 
